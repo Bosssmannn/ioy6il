@@ -17,7 +17,7 @@ UNIT_ID = 1
 
 # WICHTIG: Hier deinen eigenen Connection String eintragen!
 # Den bekommst du aus dem Azure Portal (siehe Anleitung unten)
-AZURE_CONNECTION_STRING = "HostName=DEIN-HUB.azure-devices.net;DeviceId=DEIN-DEVICE;SharedAccessKey=DEIN-KEY"
+AZURE_CONNECTION_STRING = "HostName=hub-ioy6-rusche-milczek.azure-devices.net;DeviceId=modbus-gateway;SharedAccessKey=+xl8jEZmzHdyBZliKr5f2evPNhhz7kM57zSdEvVvcrU="
 
 # Wie oft Daten gesendet werden sollen (in Sekunden)
 SEND_INTERVAL = 2
