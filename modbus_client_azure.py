@@ -1,8 +1,3 @@
-"""
-Modbus TCP Client mit Azure IoT Hub Anbindung - IOY6 Übung 1
-Liest Sensordaten vom Modbus Gateway und sendet sie an Azure IoT Hub.
-"""
-
 from pyModbusTCP.client import ModbusClient
 from azure.iot.device import IoTHubDeviceClient, Message
 import json
@@ -43,11 +38,7 @@ def read_sensor_data():
     }
 
 
-# =============================================
-# Azure IoT Hub Setup
-# =============================================
 def create_iot_client():
-    """Erstellt die Verbindung zum Azure IoT Hub."""
     try:
         client = IoTHubDeviceClient.create_from_connection_string(AZURE_CONNECTION_STRING)
         client.connect()
@@ -60,7 +51,6 @@ def create_iot_client():
 
 def send_to_azure(iot_client, sensor_data):
     """Sendet Sensordaten als JSON-Nachricht an Azure IoT Hub."""
-    # Nachricht als JSON formatieren
     message_body = json.dumps({
         "temperature_celsius": sensor_data["temperature_celsius"],
         "temperature_fahrenheit": sensor_data["temperature_fahrenheit"],
@@ -72,7 +62,6 @@ def send_to_azure(iot_client, sensor_data):
     message.content_type = "application/json"
     message.content_encoding = "utf-8"
 
-    # Benutzerdefinierte Properties (optional, aber nützlich)
     message.custom_properties["source"] = "modbus_gateway"
     message.custom_properties["sensor_type"] = "temperature_humidity"
 
@@ -83,9 +72,6 @@ def send_to_azure(iot_client, sensor_data):
         print(f"  -> FEHLER beim Senden an Azure: {e}")
 
 
-# =============================================
-# Hauptprogramm
-# =============================================
 if __name__ == "__main__":
     print("=" * 60)
     print("Modbus TCP Client + Azure IoT Hub - IOY6 Übung 1")
@@ -93,13 +79,11 @@ if __name__ == "__main__":
     print(f"Sende-Intervall: {SEND_INTERVAL} Sekunden")
     print("=" * 60)
 
-    # Azure IoT Hub Client erstellen
     iot_client = create_iot_client()
     if iot_client is None:
         print("Konnte keine Verbindung zu Azure IoT Hub herstellen. Beende.")
         exit(1)
 
-    # Endlosschleife: Sensordaten lesen und an Azure senden
     print("\nStarte Datenübertragung (Strg+C zum Beenden)...\n")
     message_count = 0
 
@@ -121,7 +105,6 @@ if __name__ == "__main__":
         print(f"\n\nBeendet. {message_count} Nachrichten gesendet.")
 
     finally:
-        # Verbindungen sauber schließen
         modbus_client.close()
         iot_client.disconnect()
         print("Verbindungen geschlossen.")

@@ -1,9 +1,3 @@
-"""
-Modbus TCP Client - IOY6 Übung 1
-Liest Sensordaten (Temperatur, Luftfeuchtigkeit) vom Modbus Gateway
-und kann Holding Register lesen/schreiben.
-"""
-
 from pyModbusTCP.client import ModbusClient
 import time
 
@@ -63,16 +57,13 @@ def read_holding_registers(address, count=1):
     return regs
 
 
-# =============================================
 # Hauptprogramm
-# =============================================
 if __name__ == "__main__":
     print("=" * 50)
     print("Modbus TCP Client - IOY6 Übung 1")
     print(f"Verbinde zu {MODBUS_HOST}:{MODBUS_PORT}")
     print("=" * 50)
 
-    # --- Teil 1: Sensordaten auslesen ---
     print("\n--- Sensordaten auslesen (5 Messungen, alle 2 Sekunden) ---")
     for i in range(5):
         data = read_sensor_data()
@@ -82,15 +73,12 @@ if __name__ == "__main__":
             print(f"  Luftfeuchtigkeit: {data['humidity_percent']:.1f} %")
         time.sleep(2)
 
-    # --- Teil 2: Holding Register schreiben und lesen ---
     print("\n--- Holding Register Test ---")
 
-    # Wert in Holding Register 0 schreiben
     test_value = 12345
     print(f"\nSchreibe Wert {test_value} in Holding Register 0...")
     write_holding_register(0, test_value)
 
-    # Wert wieder auslesen
     print("Lese Holding Register 0 aus...")
     result = read_holding_registers(0, 1)
     if result:
@@ -100,6 +88,5 @@ if __name__ == "__main__":
         else:
             print("ACHTUNG: Werte stimmen nicht überein!")
 
-    # Aufräumen
     client.close()
     print("\nVerbindung geschlossen.")
